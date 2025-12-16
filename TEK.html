@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>meka v0.2</title>
+<title>meka v0.3</title>
 
 <style>
 body{
@@ -73,38 +73,67 @@ button{
 <body>
 
 <div class="kutu">
-  <div class="baslik">meka v0.2 🤖</div>
+  <div class="baslik">meka v0.3 🤖</div>
 
   <div id="sohbet" class="sohbet"></div>
 
   <div class="alt">
-    <input id="giris" placeholder="Bir şey yaz..."
-      onkeyup="if(event.key==='Enter') gonder()">
-    <button type="button" onclick="gonder()">Gönder</button>
+    <input id="giris" placeholder="Bir şey yaz...">
+    <button type="button" id="gonder">Gönder</button>
   </div>
 </div>
 
 <script>
+// Açılış mesajı
 window.onload = function(){
-  mesajEkle("Merhaba! Ben meka v0.2. Sorularını buraya yazabilirsin.","ai");
+  mesajEkle("Merhaba! Ben meka v0.3. Sorularını buraya yazabilirsin.","ai");
 };
 
+// Buton ve Enter
+const giris = document.getElementById("giris");
+const buton = document.getElementById("gonder");
+buton.addEventListener("click", gonder);
+giris.addEventListener("keyup", function(event){
+  if(event.key === "Enter") gonder();
+});
+
+// Gönder fonksiyonu
 function gonder(){
-  let metin = document.getElementById("giris").value;
-  if(metin.trim()==="") return;
+  let metin = giris.value;
+  if(metin.trim() === "") return;
 
   mesajEkle(metin,"kullanici");
-  document.getElementById("giris").value="";
+  giris.value = "";
 
   let cevap = cevapUret(metin.toLowerCase());
-
-  setTimeout(()=>{
-    mesajEkle(cevap,"ai");
-  },300);
+  setTimeout(()=>{mesajEkle(cevap,"ai");},300);
 }
 
+// Cevap üretme fonksiyonu
 function cevapUret(s){
-  // DÜZELTİLMİŞ REGEX
+  // Basit yazım hatasına tolerans
+  if(similar(s,"yapay zeka") > 0.7)
+    return "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.";
+
+  // Saat
+  if(s.includes("saat")){
+    const now = new Date();
+    const saat = now.getHours();
+    const dakika = now.getMinutes();
+    const saniye = now.getSeconds();
+    return `Şu an saat: ${saat}:${dakika}:${saniye}`;
+  }
+
+  // Tarih
+  if(s.includes("tarih")){
+    const now = new Date();
+    const gun = now.getDate();
+    const ay = now.getMonth() + 1;
+    const yil = now.getFullYear();
+    return `Bugünün tarihi: ${gun}/${ay}/${yil}`;
+  }
+
+  // Hesaplama
   if(/^[0-9+\-*/(). ]+$/.test(s)){
     try{
       return "Sonuç: " + eval(s);
@@ -113,21 +142,22 @@ function cevapUret(s){
     }
   }
 
-  if(s.includes("yapay zeka"))
-    return "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.";
-
-  if(s.includes("stem"))
+  // STEM
+  if(similar(s,"stem") > 0.7)
     return "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.";
 
-  if(s.includes("merhaba") || s.includes("selam"))
-    return "Merhaba! Ben meka v0.2. Nasıl yardımcı olabilirim?";
+  // Selamlaşma
+  if(similar(s,"merhaba") > 0.7 || similar(s,"selam") > 0.7)
+    return "Merhaba! Ben meka v0.3. Nasıl yardımcı olabilirim?";
 
+  // Uzun mesajlar için genel cevap
   if(s.length > 10)
     return "Bu konuya farklı açılardan bakabiliriz.";
 
   return "Bunu biraz daha açar mısın?";
 }
 
+// Mesaj ekleme
 function mesajEkle(metin,tip){
   let div = document.createElement("div");
   div.className = "mesaj " + tip;
@@ -136,8 +166,17 @@ function mesajEkle(metin,tip){
   sohbet.appendChild(div);
   sohbet.scrollTop = sohbet.scrollHeight;
 }
+
+// Basit yazım hatası kontrolü
+function similar(a,b){
+    a=a.toLowerCase(); b=b.toLowerCase();
+    let matches=0;
+    for(let i=0;i<Math.min(a.length,b.length);i++){
+        if(a[i]===b[i]) matches++;
+    }
+    return matches / Math.max(a.length,b.length);
+}
 </script>
 
 </body>
 </html>
-
