@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>meka v0.2</title>
+
+<style>
+body{
+  background:#0f172a;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
+}
+.kutu{
+  background:#020617;
+  width:360px;
+  height:500px;
+  border-radius:12px;
+  display:flex;
+  flex-direction:column;
+  color:white;
+}
+.baslik{
+  padding:12px;
+  text-align:center;
+  border-bottom:1px solid #1e293b;
+  font-weight:bold;
+}
+.sohbet{
+  flex:1;
+  padding:10px;
+  overflow-y:auto;
+}
+.mesaj{
+  padding:8px;
+  margin-bottom:6px;
+  border-radius:8px;
+  max-width:80%;
+  font-size:14px;
+}
+.kullanici{
+  background:#2563eb;
+  margin-left:auto;
+}
+.ai{
+  background:#334155;
+}
+.alt{
+  display:flex;
+  gap:6px;
+  padding:10px;
+}
+input{
+  flex:1;
+  padding:8px;
+  border-radius:8px;
+  border:none;
+}
+button{
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="kutu">
+  <div class="baslik">meka v0.2 🤖</div>
+
+  <div id="sohbet" class="sohbet"></div>
+
+  <div class="alt">
+    <input id="giris" placeholder="Bir şey yaz..."
+      onkeyup="if(event.key==='Enter') gonder()">
+    <button type="button" onclick="gonder()">Gönder</button>
+  </div>
+</div>
+
+<script>
+window.onload = function(){
+  mesajEkle("Merhaba! Ben meka v0.2. Sorularını buraya yazabilirsin.","ai");
+};
+
+function gonder(){
+  let metin = document.getElementById("giris").value;
+  if(metin.trim()==="") return;
+
+  mesajEkle(metin,"kullanici");
+  document.getElementById("giris").value="";
+
+  let cevap = cevapUret(metin.toLowerCase());
+
+  setTimeout(()=>{
+    mesajEkle(cevap,"ai");
+  },300);
+}
+
+function cevapUret(s){
+  // DÜZELTİLMİŞ REGEX
+  if(/^[0-9+\-*/(). ]+$/.test(s)){
+    try{
+      return "Sonuç: " + eval(s);
+    }catch{
+      return "İşlem hatalı.";
+    }
+  }
+
+  if(s.includes("yapay zeka"))
+    return "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.";
+
+  if(s.includes("stem"))
+    return "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.";
+
+  if(s.includes("merhaba") || s.includes("selam"))
+    return "Merhaba! Ben meka v0.2. Nasıl yardımcı olabilirim?";
+
+  if(s.length > 10)
+    return "Bu konuya farklı açılardan bakabiliriz.";
+
+  return "Bunu biraz daha açar mısın?";
+}
+
+function mesajEkle(metin,tip){
+  let div = document.createElement("div");
+  div.className = "mesaj " + tip;
+  div.innerText = metin;
+  let sohbet = document.getElementById("sohbet");
+  sohbet.appendChild(div);
+  sohbet.scrollTop = sohbet.scrollHeight;
+}
+</script>
+
+</body>
+</html>
+
