@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>meka v0.4</title>
+<title>meka v0.3</title>
 
 <style>
 body{
@@ -26,7 +26,7 @@ body{
 .baslik{
   padding:12px;
   text-align:center;
-  border-bottom:1px solid #1e293b;
+  border-bottom:1px solid #11e293b;
   font-weight:bold;
 }
 .sohbet{
@@ -73,7 +73,7 @@ button{
 <body>
 
 <div class="kutu">
-  <div class="baslik">meka v0.4 🤖</div>
+  <div class="baslik">meka v0.3 🤖</div>
 
   <div id="sohbet" class="sohbet"></div>
 
@@ -86,7 +86,7 @@ button{
 <script>
 // Açılış mesajı
 window.onload = function(){
-  mesajEkle("Merhaba! Ben meka v0.4 Sorularını buraya yazabilirsin.","ai");
+  mesajEkle("Merhaba! Ben meka v0.3. Sorularını buraya yazabilirsin.","ai");
 };
 
 // Buton ve Enter
@@ -112,41 +112,45 @@ function gonder(){
 // Cevap üretme fonksiyonu
 function cevapUret(s){
 
-  // "nasılsın" ifadesi
+  // "nasılsın"
   if(similar(s, "nasılsın") > 0.6 || s.includes("nasılsın")){
       return "İyiyim, sen nasılsın?";
   }
 
-  // Kullanıcı "iyiyim" derse
+  // "iyiyim"
   if(s.includes("iyiyim") || similar(s, "iyiyim") > 0.6){
       return "Güzel, iyi olmana sevindim.";
   }
 
-  // Kullanıcı üzgün olduğunu söylerse
+  // Üzgün ifadeleri
   if(s.includes("üzgünüm") || s.includes("kötüyüm") || s.includes("moralim bozuk")){
       return "Üzüldüm, neyin var?";
   }
 
-  // Basit yazım hatasına tolerans - yapay zeka
+  // "adın ne"
+  if(s.includes("adın ne") || similar(s, "adın ne") > 0.6){
+      return "Adım meka.";
+  }
+
+  // "ismin ne"
+  if(s.includes("ismin ne") || similar(s, "ismin ne") > 0.6){
+      return "İsmim meka.";
+  }
+
+  // Yapay zeka
   if(similar(s,"yapay zeka") > 0.7)
     return "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.";
 
   // Saat
   if(s.includes("saat")){
     const now = new Date();
-    const saat = now.getHours();
-    const dakika = now.getMinutes();
-    const saniye = now.getSeconds();
-    return `Şu an saat: ${saat}:${dakika}:${saniye}`;
+    return `Şu an saat: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
   }
 
   // Tarih
   if(s.includes("tarih")){
     const now = new Date();
-    const gun = now.getDate();
-    const ay = now.getMonth() + 1;
-    const yil = now.getFullYear();
-    return `Bugünün tarihi: ${gun}/${ay}/${yil}`;
+    return `Bugünün tarihi: ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
   }
 
   // Hesaplama
@@ -164,9 +168,9 @@ function cevapUret(s){
 
   // Selamlaşma
   if(similar(s,"merhaba") > 0.7 || similar(s,"selam") > 0.7)
-    return "Merhaba! Ben meka v0.4 Nasıl yardımcı olabilirim?";
+    return "Merhaba! Ben meka v0.3. Nasıl yardımcı olabilirim?";
 
-  // Uzun mesajlar için genel cevap
+  // Uzun mesajlar
   if(s.length > 10)
     return "Bu konuya farklı açılardan bakabiliriz.";
 
@@ -196,6 +200,3 @@ function similar(a,b){
 
 </body>
 </html>
-
-
-
