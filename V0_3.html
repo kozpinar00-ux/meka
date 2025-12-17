@@ -111,7 +111,23 @@ function gonder(){
 
 // Cevap üretme fonksiyonu
 function cevapUret(s){
-  // Basit yazım hatasına tolerans
+
+  // "nasılsın" ifadesi
+  if(similar(s, "nasılsın") > 0.6 || s.includes("nasılsın")){
+      return "İyiyim, sen nasılsın?";
+  }
+
+  // Kullanıcı "iyiyim" derse
+  if(s.includes("iyiyim") || similar(s, "iyiyim") > 0.6){
+      return "Güzel, iyi olmana sevindim.";
+  }
+
+  // Kullanıcı üzgün olduğunu söylerse
+  if(s.includes("üzgünüm") || s.includes("kötüyüm") || s.includes("moralim bozuk")){
+      return "Üzüldüm, neyin var?";
+  }
+
+  // Basit yazım hatasına tolerans - yapay zeka
   if(similar(s,"yapay zeka") > 0.7)
     return "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.";
 
