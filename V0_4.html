@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>meka v0.3</title>
+<title>meka v0.4</title>
 
 <style>
 body{
@@ -73,7 +73,7 @@ button{
 <body>
 
 <div class="kutu">
-  <div class="baslik">meka v0.3 🤖</div>
+  <div class="baslik">meka v0.4 🤖</div>
 
   <div id="sohbet" class="sohbet"></div>
 
@@ -86,7 +86,7 @@ button{
 <script>
 // Açılış mesajı
 window.onload = function(){
-  mesajEkle("Merhaba! Ben meka v0.3. Sorularını buraya yazabilirsin.","ai");
+  mesajEkle("Merhaba! Ben meka v0.4 Sorularını buraya yazabilirsin.","ai");
 };
 
 // Buton ve Enter
@@ -168,7 +168,7 @@ function cevapUret(s){
 
   // Selamlaşma
   if(similar(s,"merhaba") > 0.7 || similar(s,"selam") > 0.7)
-    return "Merhaba! Ben meka v0.3. Nasıl yardımcı olabilirim?";
+    return "Merhaba! Ben meka v0.4 Nasıl yardımcı olabilirim?";
 
   // Uzun mesajlar
   if(s.length > 10)
@@ -200,3 +200,4 @@ function similar(a,b){
 
 </body>
 </html>
+
