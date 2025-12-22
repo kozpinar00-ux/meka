@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>meka v0.5</title>
+<style>
+  body{
+    background:#0f172a;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+    color:white;
+    padding:16px;
+  }
+  .kutu{
+    background:#020617;
+    width:min(760px, 100%);
+    height:min(80vh, 760px);
+    border-radius:16px;
+    display:flex;
+    flex-direction:column;
+    border:1px solid #1e293b;
+    box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  }
+  .baslik{
+    padding:16px;
+    text-align:center;
+    border-bottom:1px solid #1e293b;
+    font-weight:bold;
+    font-size:20px;
+  }
+  .sohbet{
+    flex:1;
+    padding:16px;
+    overflow-y:auto;
+  }
+  .mesaj{
+    padding:12px 14px;
+    margin-bottom:10px;
+    border-radius:12px;
+    max-width:80%;
+    font-size:16px;
+    line-height:1.4;
+  }
+  .kullanici{background:#2563eb; margin-left:auto;}
+  .ai{background:#334155;}
+  .alt{
+    display:flex;
+    gap:10px;
+    padding:12px;
+    border-top:1px solid #1e293b;
+  }
+  input#giris{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #1e293b;
+    background:#0b1220;
+    color:white;
+    font-size:16px;
+  }
+  button#gonder{
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+  }
+</style>
+</head>
+<body>
+
+<div class="kutu">
+  <div class="baslik">meka v0.5 🤖</div>
+  <div id="sohbet" class="sohbet"></div>
+  <div class="alt">
+    <input id="giris" placeholder="Bir şey yaz..." autocomplete="off" />
+    <button type="button" id="gonder">Gönder</button>
+  </div>
+</div>
+
+<script>
+// Cevaplar tek dosyada obje olarak
+const cevaplar = {
+  "nasılsın": "İyiyim, sen nasılsın?",
+  "iyiyim": "Güzel, iyi olmana sevindim.",
+  "moralim bozuk": "Üzüldüm, istersen biraz anlat — ne oldu?",
+  "üzgünüm": "Üzüldüm, yanında olmamı ister misin?",
+  "adın ne": "Adım meka.",
+  "ismin ne": "İsmim meka.",
+  "yapay zeka": "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.",
+  "stem": "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.",
+  "merhaba": "Merhaba! Ben meka v0.5 • Nasıl yardımcı olabilirim?",
+  "selam": "Selam! Ben meka v0.5 • Ne konuşmak istersin?",
+  "teşekkürler": "Rica ederim, her zaman!",
+  "sağ ol": "Ne demek, yardımcı olabildiysem ne mutlu!",
+  "günaydın": "Günaydın! Umarım güzel bir gün olur.",
+  "iyi geceler": "İyi geceler! Dinlenmeyi unutma."
+};
+
+// Açılış mesajı
+window.onload = () => {
+  mesajEkle("Merhaba! Ben meka v0.5 • Tek dosya içindeyim.", "ai");
+};
+
+const giris = document.getElementById("giris");
+const buton = document.getElementById("gonder");
+buton.addEventListener("click", gonder);
+giris.addEventListener("keyup", e => { if(e.key === "Enter") gonder(); });
+
+function gonder(){
+  const metin = giris.value;
+  if(!metin.trim()) return;
+  mesajEkle(metin,"kullanici");
+  giris.value = "";
+  const cevap = cevapUret(metin.toLowerCase());
+  mesajEkle(cevap,"ai");
+}
+
+function cevapUret(s){
+  for(const key in cevaplar){
+    if(s.includes(key)) return cevaplar[key];
+  }
+  if(s.includes("saat")){
+    const now = new Date();
+    return `Şu an saat: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+  }
+  if(s.includes("tarih")){
+    const now = new Date();
+    return `Bugünün tarihi: ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+  }
+  if(/^[0-9+\-*/(). %]+$/.test(s)){
+    try{ return "Sonuç: " + Function(`return (${s})`)(); }
+    catch{ return "İşlem hatalı."; }
+  }
+  return "Bunu biraz daha açar mısın?";
+}
+
+function mesajEkle(metin,tip){
+  const sohbet = document.getElementById("sohbet");
+  const div = document.createElement("div");
+  div.className = "mesaj " + tip;
+  div.textContent = metin;
+  sohbet.appendChild(div);
+  sohbet.scrollTop = sohbet.scrollHeight;
+}
+</script>
+
+</body>
+</html>
+
