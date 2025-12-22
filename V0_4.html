@@ -1,200 +1,155 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>meka v0.4</title>
-
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>meka v0.5</title>
 <style>
-body{
-  background:#0f172a;
-  font-family:Arial;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-  margin:0;
-}
-.kutu{
-  background:#020617;
-  width:360px;
-  height:500px;
-  border-radius:12px;
-  display:flex;
-  flex-direction:column;
-  color:white;
-}
-.baslik{
-  padding:12px;
-  text-align:center;
-  border-bottom:1px solid #11e293b;
-  font-weight:bold;
-}
-.sohbet{
-  flex:1;
-  padding:10px;
-  overflow-y:auto;
-}
-.mesaj{
-  padding:8px;
-  margin-bottom:6px;
-  border-radius:8px;
-  max-width:80%;
-  font-size:14px;
-}
-.kullanici{
-  background:#2563eb;
-  margin-left:auto;
-}
-.ai{
-  background:#334155;
-}
-.alt{
-  display:flex;
-  gap:6px;
-  padding:10px;
-}
-input{
-  flex:1;
-  padding:8px;
-  border-radius:8px;
-  border:none;
-}
-button{
-  background:#2563eb;
-  color:white;
-  border:none;
-  border-radius:8px;
-  padding:8px 12px;
-  cursor:pointer;
-}
+  body{
+    background:#0f172a;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+    color:white;
+    padding:16px;
+  }
+  .kutu{
+    background:#020617;
+    width:min(760px, 100%);
+    height:min(80vh, 760px);
+    border-radius:16px;
+    display:flex;
+    flex-direction:column;
+    border:1px solid #1e293b;
+    box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  }
+  .baslik{
+    padding:16px;
+    text-align:center;
+    border-bottom:1px solid #1e293b;
+    font-weight:bold;
+    font-size:20px;
+  }
+  .sohbet{
+    flex:1;
+    padding:16px;
+    overflow-y:auto;
+  }
+  .mesaj{
+    padding:12px 14px;
+    margin-bottom:10px;
+    border-radius:12px;
+    max-width:80%;
+    font-size:16px;
+    line-height:1.4;
+  }
+  .kullanici{background:#2563eb; margin-left:auto;}
+  .ai{background:#334155;}
+  .alt{
+    display:flex;
+    gap:10px;
+    padding:12px;
+    border-top:1px solid #1e293b;
+  }
+  input#giris{
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:1px solid #1e293b;
+    background:#0b1220;
+    color:white;
+    font-size:16px;
+  }
+  button#gonder{
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    cursor:pointer;
+    font-size:16px;
+    font-weight:600;
+  }
 </style>
 </head>
-
 <body>
 
 <div class="kutu">
-  <div class="baslik">meka v0.4 🤖</div>
-
+  <div class="baslik">meka v0.5 🤖</div>
   <div id="sohbet" class="sohbet"></div>
-
   <div class="alt">
-    <input id="giris" placeholder="Bir şey yaz...">
+    <input id="giris" placeholder="Bir şey yaz..." autocomplete="off" />
     <button type="button" id="gonder">Gönder</button>
   </div>
 </div>
 
 <script>
-// Açılış mesajı
-window.onload = function(){
-  mesajEkle("Merhaba! Ben meka v0.4 Sorularını buraya yazabilirsin.","ai");
+// Cevaplar tek dosyada obje olarak
+const cevaplar = {
+  "nasılsın": "İyiyim, sen nasılsın?",
+  "iyiyim": "Güzel, iyi olmana sevindim.",
+  "moralim bozuk": "Üzüldüm, istersen biraz anlat — ne oldu?",
+  "üzgünüm": "Üzüldüm, yanında olmamı ister misin?",
+  "adın ne": "Adım meka.",
+  "ismin ne": "İsmim meka.",
+  "yapay zeka": "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.",
+  "stem": "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.",
+  "merhaba": "Merhaba! Ben meka v0.5 • Nasıl yardımcı olabilirim?",
+  "selam": "Selam! Ben meka v0.5 • Ne konuşmak istersin?",
+  "teşekkürler": "Rica ederim, her zaman!",
+  "sağ ol": "Ne demek, yardımcı olabildiysem ne mutlu!",
+  "günaydın": "Günaydın! Umarım güzel bir gün olur.",
+  "iyi geceler": "İyi geceler! Dinlenmeyi unutma."
 };
 
-// Buton ve Enter
+// Açılış mesajı
+window.onload = () => {
+  mesajEkle("Merhaba! Ben meka v0.5 • Tek dosya içindeyim.", "ai");
+};
+
 const giris = document.getElementById("giris");
 const buton = document.getElementById("gonder");
 buton.addEventListener("click", gonder);
-giris.addEventListener("keyup", function(event){
-  if(event.key === "Enter") gonder();
-});
+giris.addEventListener("keyup", e => { if(e.key === "Enter") gonder(); });
 
-// Gönder fonksiyonu
 function gonder(){
-  let metin = giris.value;
-  if(metin.trim() === "") return;
-
+  const metin = giris.value;
+  if(!metin.trim()) return;
   mesajEkle(metin,"kullanici");
   giris.value = "";
-
-  let cevap = cevapUret(metin.toLowerCase());
-  setTimeout(()=>{mesajEkle(cevap,"ai");},300);
+  const cevap = cevapUret(metin.toLowerCase());
+  mesajEkle(cevap,"ai");
 }
 
-// Cevap üretme fonksiyonu
 function cevapUret(s){
-
-  // "nasılsın"
-  if(similar(s, "nasılsın") > 0.6 || s.includes("nasılsın")){
-      return "İyiyim, sen nasılsın?";
+  for(const key in cevaplar){
+    if(s.includes(key)) return cevaplar[key];
   }
-
-  // "iyiyim"
-  if(s.includes("iyiyim") || similar(s, "iyiyim") > 0.6){
-      return "Güzel, iyi olmana sevindim.";
-  }
-
-  // Üzgün ifadeleri
-  if(s.includes("üzgünüm") || s.includes("kötüyüm") || s.includes("moralim bozuk")){
-      return "Üzüldüm, neyin var?";
-  }
-
-  // "adın ne"
-  if(s.includes("adın ne") || similar(s, "adın ne") > 0.6){
-      return "Adım meka.";
-  }
-
-  // "ismin ne"
-  if(s.includes("ismin ne") || similar(s, "ismin ne") > 0.6){
-      return "İsmim meka.";
-  }
-
-  // Yapay zeka
-  if(similar(s,"yapay zeka") > 0.7)
-    return "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.";
-
-  // Saat
   if(s.includes("saat")){
     const now = new Date();
     return `Şu an saat: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
   }
-
-  // Tarih
   if(s.includes("tarih")){
     const now = new Date();
     return `Bugünün tarihi: ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
   }
-
-  // Hesaplama
-  if(/^[0-9+\-*/(). ]+$/.test(s)){
-    try{
-      return "Sonuç: " + eval(s);
-    }catch{
-      return "İşlem hatalı.";
-    }
+  if(/^[0-9+\-*/(). %]+$/.test(s)){
+    try{ return "Sonuç: " + Function(`return (${s})`)(); }
+    catch{ return "İşlem hatalı."; }
   }
-
-  // STEM
-  if(similar(s,"stem") > 0.7)
-    return "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.";
-
-  // Selamlaşma
-  if(similar(s,"merhaba") > 0.7 || similar(s,"selam") > 0.7)
-    return "Merhaba! Ben meka v0.4 Nasıl yardımcı olabilirim?";
-
-  // Uzun mesajlar
-  if(s.length > 10)
-    return "Bu konuya farklı açılardan bakabiliriz.";
-
   return "Bunu biraz daha açar mısın?";
 }
 
-// Mesaj ekleme
 function mesajEkle(metin,tip){
-  let div = document.createElement("div");
+  const sohbet = document.getElementById("sohbet");
+  const div = document.createElement("div");
   div.className = "mesaj " + tip;
-  div.innerText = metin;
-  let sohbet = document.getElementById("sohbet");
+  div.textContent = metin;
   sohbet.appendChild(div);
   sohbet.scrollTop = sohbet.scrollHeight;
-}
-
-// Basit yazım hatası kontrolü
-function similar(a,b){
-    a=a.toLowerCase(); b=b.toLowerCase();
-    let matches=0;
-    for(let i=0;i<Math.min(a.length,b.length);i++){
-        if(a[i]===b[i]) matches++;
-    }
-    return matches / Math.max(a.length,b.length);
 }
 </script>
 
