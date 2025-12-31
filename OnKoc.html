@@ -45,6 +45,7 @@
     max-width:80%;
     font-size:16px;
     line-height:1.4;
+    word-wrap:break-word;
   }
   .kullanici{background:#2563eb; margin-left:auto;}
   .ai{background:#334155;}
@@ -87,7 +88,7 @@
 </div>
 
 <script>
-// Cevaplar tek dosyada obje olarak
+// Basit cevaplar (küçük harf eşleşmesi)
 const cevaplar = {
   "nasılsın": "İyiyim, sen nasılsın?",
   "iyiyim": "Güzel, iyi olmana sevindim.",
@@ -106,7 +107,7 @@ const cevaplar = {
   "istanbul ne zaman fethedildi": "İstanbul, 29 Mayıs 1453 tarihinde II. Mehmet (Fatih Sultan Mehmet) tarafından fethedildi.",
   "türkiye'nin başkenti neresi": "Türkiye'nin başkenti Ankara'dır.",
 
-  // Senin eklediğin yeni cevaplar:
+  // Geliştirilmiş 25 soru-yanıt
   "derslerime odaklanamıyorum": "Odaklanmak için dikkatini dağıtan şeyleri ortadan kaldır. Küçük hedefler koyarak başla.",
   "hiçbir şey aklımda kalmıyor": "Bilgiyi kalıcı hale getirmek için aralıklı tekrar yap. Kısa notlar hafızanı güçlendirir.",
   "çok çabuk sıkılıyorum": "Uzun süre çalışmak yerine kısa ve yoğun seanslar yap. 25 dakika ders, 5 dakika mola gibi.",
@@ -134,73 +135,62 @@ const cevaplar = {
   "kim olduğumu bilmiyorum": "Zamanla netleşir. Kendini keşfetmek uzun bir yolculuktur."
 };
 
-// Açılış mesajı
-window.onload = () => {
-  mesajEkle("Merhaba! Ben ÖnKoç • Tek dosya içindeyim.", "ai")
-};
-
-    function gonder(){
-  const metin = giris.value;
-  if(!metin.trim()) return;
-  mesajEkle(metin,"kullanici");
-  giris.value = "";
-  const cevap = cevapUret(metin.toLowerCase());
-
-  // 1 saniye bekle, sonra cevabı göster
-  setTimeout(() => {
-    mesajEkle(cevap,"ai");
-  }, 5000);
-}
-
-
+// UI yardımcıları
+const sohbet = document.getElementById("sohbet");
 const giris = document.getElementById("giris");
 const buton = document.getElementById("gonder");
+
+// Açılış
+window.onload = () => {
+  mesajEkle("Merhaba! Ben ÖnKoç • Nasıl yardımcı olabilirim?", "ai");
+};
+
+// Eventler
 buton.addEventListener("click", gonder);
-giris.addEventListener("keyup", e => { if(e.key === "Enter") gonder(); });
+giris.addEventListener("keyup", e => { if (e.key === "Enter") gonder(); });
 
-function gonder(){
-  const metin = giris.value;
-  if(!metin.trim()) return;
-  mesajEkle(metin,"kullanici");
-  giris.value = "";
-  const cevap = cevapUret(metin.toLowerCase());
-  mesajEkle(cevap,"ai");
-}
-
-function cevapUret(s){
-  for(const key in cevaplar){
-    if(s.includes(key)) return cevaplar[key];
-  }
-  if(s.includes("saat")){
-    const now = new Date();
-    return `Şu an saat: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
-  }
-  if(s.includes("tarih")){
-    const now = new Date();
-    return `Bugünün tarihi: ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
-  }
-  if(/^[0-9+\-*/(). %]+$/.test(s)){
-    try{ return "Sonuç: " + Function(`return (${s})`)(); }
-    catch{ return "İşlem hatalı."; }
-  }
-  return "Bunu biraz daha açar mısın?";
-}
-
-function mesajEkle(metin,tip){
-  const sohbet = document.getElementById("sohbet");
+// Mesaj ekleme
+function mesajEkle(metin, tur){
   const div = document.createElement("div");
-  div.className = "mesaj " + tip;
+  div.className = `mesaj ${tur}`;
   div.textContent = metin;
   sohbet.appendChild(div);
   sohbet.scrollTop = sohbet.scrollHeight;
 }
-</script>
 
+// Cevap üretimi (basit keyword eşleşme + en yakın)
+function cevapUret(girdi){
+  const temiz = girdi.trim().toLowerCase();
+  if (!temiz) return "Beni çağırdın ama bir şey söylemedin gibi geldi.";
+
+  // Doğrudan eşleşme
+  if (cevaplar[temiz]) return cevaplar[temiz];
+
+  // Basit anahtar kelime taraması
+  const anahtarlar = Object.keys(cevaplar);
+  const bul = anahtarlar.find(k => temiz.includes(k));
+  if (bul) return cevaplar[bul];
+
+  return "Bunu tam anlayamadım. Biraz daha açar mısın?";
+}
+
+// Gönder akışı + 1 saniye bekleme
+function gonder(){
+  const metin = giris.value;
+  if (!metin || !metin.trim()) return;
+
+  // Kullanıcı mesajı anında
+  mesajEkle(metin, "kullanici");
+  giris.value = "";
+
+  // Cevabı hazırla
+  const cevap = cevapUret(metin.toLowerCase());
+
+  // 1 saniye bekleyip yaz
+  setTimeout(() => {
+    mesajEkle(cevap, "ai");
+  }, 1000);
+}
+</script>
 </body>
 </html>
-
-
-
-
-
-
