@@ -86,6 +86,19 @@
   </div>
 </div>
 
+  function gonder(){
+  const metin = giris.value;
+  if(!metin.trim()) return;
+  mesajEkle(metin,"kullanici");
+  giris.value = "";
+  const cevap = cevapUret(metin.toLowerCase());
+
+  // 1 saniye bekle, sonra cevabı göster
+  setTimeout(() => {
+    mesajEkle(cevap,"ai");
+  }, 1000);
+}
+
 <script>
 // Cevaplar tek dosyada obje olarak
 const cevaplar = {
@@ -184,6 +197,7 @@ function mesajEkle(metin,tip){
 
 </body>
 </html>
+
 
 
 
