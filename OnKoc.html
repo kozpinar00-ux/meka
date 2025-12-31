@@ -86,19 +86,6 @@
   </div>
 </div>
 
-  function gonder(){
-  const metin = giris.value;
-  if(!metin.trim()) return;
-  mesajEkle(metin,"kullanici");
-  giris.value = "";
-  const cevap = cevapUret(metin.toLowerCase());
-
-  // 1 saniye bekle, sonra cevabı göster
-  setTimeout(() => {
-    mesajEkle(cevap,"ai");
-  }, 1000);
-}
-
 <script>
 // Cevaplar tek dosyada obje olarak
 const cevaplar = {
@@ -149,8 +136,22 @@ const cevaplar = {
 
 // Açılış mesajı
 window.onload = () => {
-  mesajEkle("Merhaba! Ben ÖnKoç • Tek dosya içindeyim.", "ai");
+  mesajEkle("Merhaba! Ben ÖnKoç • Tek dosya içindeyim.", "ai")
 };
+
+    function gonder(){
+  const metin = giris.value;
+  if(!metin.trim()) return;
+  mesajEkle(metin,"kullanici");
+  giris.value = "";
+  const cevap = cevapUret(metin.toLowerCase());
+
+  // 1 saniye bekle, sonra cevabı göster
+  setTimeout(() => {
+    mesajEkle(cevap,"ai");
+  }, 1000);
+}
+
 
 const giris = document.getElementById("giris");
 const buton = document.getElementById("gonder");
@@ -197,6 +198,7 @@ function mesajEkle(metin,tip){
 
 </body>
 </html>
+
 
 
 
