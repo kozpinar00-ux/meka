@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ÖnKoç - 1</title>
+<title>ÖnKoç</title>
 <style>
   body{
     background:#0f172a;
@@ -45,7 +45,6 @@
     max-width:80%;
     font-size:16px;
     line-height:1.4;
-    word-wrap:break-word;
   }
   .kullanici{background:#2563eb; margin-left:auto;}
   .ai{background:#334155;}
@@ -88,103 +87,114 @@
 </div>
 
 <script>
-// Basit cevaplar
+// Cevaplar tek dosyada obje olarak
 const cevaplar = {
   "nasılsın": "İyiyim, sen nasılsın?",
   "iyiyim": "Güzel, iyi olmana sevindim.",
+  "moralim bozuk": "Üzüldüm, istersen biraz anlat — ne oldu?",
+  "üzgünüm": "Üzüldüm, yanında olmamı ister misin?",
   "adın ne": "Adım ÖnKoç.",
   "ismin ne": "İsmim ÖnKoç.",
+  "yapay zeka": "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.",
+  "stem": "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.",
   "merhaba": "Merhaba! Ben ÖnKoç • Nasıl yardımcı olabilirim?",
   "selam": "Selam! Ben ÖnKoç • Ne konuşmak istersin?",
+  "teşekkürler": "Rica ederim, her zaman!",
+  "sağ ol": "Ne demek, yardımcı olabildiysem ne mutlu!",
+  "günaydın": "Günaydın! Umarım güzel bir gün olur.",
+  "iyi geceler": "İyi geceler! Dinlenmeyi unutma.",
   "istanbul ne zaman fethedildi": "İstanbul, 29 Mayıs 1453 tarihinde II. Mehmet (Fatih Sultan Mehmet) tarafından fethedildi.",
-  "türkiye'nin başkenti neresi": "Türkiye'nin başkenti Ankara'dır."
+  "türkiye'nin başkenti neresi": "Türkiye'nin başkenti Ankara'dır.",
+
+  // Senin eklediğin yeni cevaplar:
+  "derslerime odaklanamıyorum": "Odaklanmak için dikkatini dağıtan şeyleri ortadan kaldır. Küçük hedefler koyarak başla.",
+  "hiçbir şey aklımda kalmıyor": "Bilgiyi kalıcı hale getirmek için aralıklı tekrar yap. Kısa notlar hafızanı güçlendirir.",
+  "çok çabuk sıkılıyorum": "Uzun süre çalışmak yerine kısa ve yoğun seanslar yap. 25 dakika ders, 5 dakika mola gibi.",
+  "telefonu bırakamıyorum": "Telefonu odadan çıkarmak en kolay çözüm. Kendine 'çalışma süresince dokunmayacağım' kuralı koy.",
+  "bu ders çok zor": "Zor geliyorsa temeli kaçırmış olabilirsin. Önce temel konuları tekrar et, sonra zor kısımlara dön.",
+  "sınavdan korkuyorum": "Korku hazırlıksızlıktan gelir. Ne kadar çok pratik yaparsan, sınav o kadar sıradan hale gelir.",
+  "ben salak mıyım": "Hayır, kesinlikle değilsin. Sadece doğru yöntemi bulmamış olabilirsin.",
+  "herkes benden iyi": "Başkalarıyla kıyaslamak seni yıpratır. Önemli olan kendi gelişimini görmek.",
+  "hiç motivasyonum yok": "Motivasyon her zaman gelmez. Disiplinle başlarsan motivasyon sonradan gelir.",
+  "ailem beni anlamıyor": "Ailen sonuç görmek ister. Sen düzenli çalıştıkça ve başarı geldikçe onlar da anlayacaktır.",
+  "asosyal miyim": "Hayır, bu sadece içe dönük olman olabilir. Gayet normal bir kişilik özelliğidir.",
+  "kimse beni anlamıyor gibi": "Bazen hisler gerçeği tam yansıtmaz. Kendini ifade etmeyi denersen anlaşılma ihtimalin artar.",
+  "geleceğim karanlık gibi": "Henüz yolun başındasın. Küçük adımlar atarak geleceğini şekillendirebilirsin.",
+  "yapay zekâ her şeyi yapacak": "Yapay zekâ güçlü bir araçtır ama insan düşüncesi hâlâ en değerli şeydir.",
+  "kod yazmak çok zor": "Kod yazmak deneme yanılma ile öğrenilir. Hata yapmak öğrenmenin en doğal parçasıdır.",
+  "oyun oynamadan duramıyorum": "Kendine zaman sınırı koy. Çalışma sonrası ödül olarak oyun oynamak daha verimli olur.",
+  "uykum hep bozuk": "Uyku saatlerini sabitlemek çok önemlidir. Düzenli uyku zihnini daha güçlü hale getirir.",
+  "dikkatim çok çabuk dağılıyor": "Çalışma ortamını sadeleştir. Masanda sadece gerekli materyaller olsun.",
+  "başarısız olacağım diye korkuyorum": "Denemeden karar vermek seni sınırlar. Deneyim kazandıkça korkuların azalır.",
+  "hiçbir şeye yeteneğim yok": "Henüz keşfetmemiş olabilirsin. Denemeye devam ettikçe güçlü olduğun alanı bulursun.",
+  "hayat anlamsız geliyor": "Anlam zamanla oluşturulur. Küçük hedefler koyarak hayatına yön verebilirsin.",
+  "ben neden böyleyim": "Bu yaşlarda böyle hissetmek çok normal. Zamanla kendini daha iyi tanıyacaksın.",
+  "çok stresliyim": "Stresi azaltmak için düzenli mola ver. Derin nefes almak bile seni rahatlatır.",
+  "ders çalışmak istemiyorum": "İstek bekleme. Alışkanlık kurarsan ders çalışmak otomatik hale gelir.",
+  "kim olduğumu bilmiyorum": "Zamanla netleşir. Kendini keşfetmek uzun bir yolculuktur."
 };
 
-// UI yardımcıları
-const sohbet = document.getElementById("sohbet");
+// Açılış mesajı
+window.onload = () => {
+  mesajEkle("Merhaba! Ben ÖnKoç • Tek dosya içindeyim.", "ai")
+};
+
+    function gonder(){
+  const metin = giris.value;
+  if(!metin.trim()) return;
+  mesajEkle(metin,"kullanici");
+  giris.value = "";
+  const cevap = cevapUret(metin.toLowerCase());
+
+  // 1 saniye bekle, sonra cevabı göster
+  setTimeout(() => {
+    mesajEkle(cevap,"ai");
+  }, 5000);
+}
+
+
 const giris = document.getElementById("giris");
 const buton = document.getElementById("gonder");
-
-// Açılış
-window.onload = () => {
-  mesajEkle("Merhaba! Ben ÖnKoç • Nasıl yardımcı olabilirim?", "ai");
-};
-
-// Eventler
 buton.addEventListener("click", gonder);
-giris.addEventListener("keyup", e => { if (e.key === "Enter") gonder(); });
+giris.addEventListener("keyup", e => { if(e.key === "Enter") gonder(); });
 
-// Mesaj ekleme
-function mesajEkle(metin, tur){
+function gonder(){
+  const metin = giris.value;
+  if(!metin.trim()) return;
+  mesajEkle(metin,"kullanici");
+  giris.value = "";
+  const cevap = cevapUret(metin.toLowerCase());
+  mesajEkle(cevap,"ai");
+}
+
+function cevapUret(s){
+  for(const key in cevaplar){
+    if(s.includes(key)) return cevaplar[key];
+  }
+  if(s.includes("saat")){
+    const now = new Date();
+    return `Şu an saat: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+  }
+  if(s.includes("tarih")){
+    const now = new Date();
+    return `Bugünün tarihi: ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+  }
+  if(/^[0-9+\-*/(). %]+$/.test(s)){
+    try{ return "Sonuç: " + Function(`return (${s})`)(); }
+    catch{ return "İşlem hatalı."; }
+  }
+  return "Bunu biraz daha açar mısın?";
+}
+
+function mesajEkle(metin,tip){
+  const sohbet = document.getElementById("sohbet");
   const div = document.createElement("div");
-  div.className = `mesaj ${tur}`;
+  div.className = "mesaj " + tip;
   div.textContent = metin;
   sohbet.appendChild(div);
   sohbet.scrollTop = sohbet.scrollHeight;
 }
-
-// Cevap üretimi
-function cevapUret(girdi){
-  const temiz = girdi.trim().toLowerCase();
-  if (!temiz) return "Beni çağırdın ama bir şey söylemedin gibi geldi.";
-
-  // Saat
-  if (temiz.includes("saat")) {
-    const simdi = new Date();
-    return "Şu an saat: " + simdi.toLocaleTimeString("tr-TR");
-  }
-
-  // Tarih
-  if (temiz.includes("tarih")) {
-    const simdi = new Date();
-    return "Bugünün tarihi: " + simdi.toLocaleDateString("tr-TR");
-  }
-
-  // 4 işlem (regex)
-  const hesapRegex = /^(\d+)\s*([\+\-\*\/])\s*(\d+)$/;
-  const eslesme = temiz.match(hesapRegex);
-  if (eslesme) {
-    const sayi1 = parseFloat(eslesme[1]);
-    const islem = eslesme[2];
-    const sayi2 = parseFloat(eslesme[3]);
-    let sonuc;
-
-    switch(islem){
-      case "+": sonuc = sayi1 + sayi2; break;
-      case "-": sonuc = sayi1 - sayi2; break;
-      case "*": sonuc = sayi1 * sayi2; break;
-      case "/": 
-        sonuc = sayi2 !== 0 ? (sayi1 / sayi2) : "Tanımsız (0'a bölme yapılamaz)";
-        break;
-    }
-    return `Sonuç: ${sonuc}`;
-  }
-
-  // Doğrudan eşleşme
-  if (cevaplar[temiz]) return cevaplar[temiz];
-
-  // Anahtar kelime taraması
-  const anahtarlar = Object.keys(cevaplar);
-  const bul = anahtarlar.find(k => temiz.includes(k));
-  if (bul) return cevaplar[bul];
-
-  return "Bunu tam anlayamadım. Biraz daha açar mısın?";
-}
-
-// Gönder akışı
-function gonder(){
-  const metin = giris.value;
-  if (!metin || !metin.trim()) return;
-
-  mesajEkle(metin, "kullanici");
-  giris.value = "";
-
-  const cevap = cevapUret(metin.toLowerCase());
-
-  setTimeout(() => {
-    mesajEkle(cevap, "ai");
-  }, 1000);
-}
 </script>
+
 </body>
 </html>
