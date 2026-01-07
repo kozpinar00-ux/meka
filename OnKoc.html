@@ -4,77 +4,84 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ÖnKoç</title>
+
 <style>
-  body{
-    background:#0f172a;
-    font-family:Arial, sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    margin:0;
-    color:white;
-    padding:16px;
-  }
-  .kutu{
-    background:#020617;
-    width:min(760px, 100%);
-    height:min(80vh, 760px);
-    border-radius:16px;
-    display:flex;
-    flex-direction:column;
-    border:1px solid #1e293b;
-    box-shadow:0 8px 24px rgba(0,0,0,0.35);
-  }
-  .baslik{
-    padding:16px;
-    text-align:center;
-    border-bottom:1px solid #1e293b;
-    font-weight:bold;
-    font-size:20px;
-  }
-  .sohbet{
-    flex:1;
-    padding:16px;
-    overflow-y:auto;
-  }
-  .mesaj{
-    padding:12px 14px;
-    margin-bottom:10px;
-    border-radius:12px;
-    max-width:80%;
-    font-size:16px;
-    line-height:1.4;
-  }
-  .kullanici{background:#2563eb; margin-left:auto;}
-  .ai{background:#334155;}
-  .alt{
-    display:flex;
-    gap:10px;
-    padding:12px;
-    border-top:1px solid #1e293b;
-  }
-  input#giris{
-    flex:1;
-    padding:12px;
-    border-radius:10px;
-    border:1px solid #1e293b;
-    background:#0b1220;
-    color:white;
-    font-size:16px;
-  }
-  button#gonder{
-    background:#2563eb;
-    color:white;
-    border:none;
-    border-radius:10px;
-    padding:12px 16px;
-    cursor:pointer;
-    font-size:16px;
-    font-weight:600;
-  }
+body{
+  background:#0f172a;
+  font-family:Arial, sans-serif;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+  margin:0;
+  color:white;
+  padding:16px;
+}
+.kutu{
+  background:#020617;
+  width:min(760px, 100%);
+  height:min(80vh, 760px);
+  border-radius:16px;
+  display:flex;
+  flex-direction:column;
+  border:1px solid #1e293b;
+  box-shadow:0 8px 24px rgba(0,0,0,0.35);
+}
+.baslik{
+  padding:16px;
+  text-align:center;
+  border-bottom:1px solid #1e293b;
+  font-weight:bold;
+  font-size:20px;
+}
+.sohbet{
+  flex:1;
+  padding:16px;
+  overflow-y:auto;
+}
+.mesaj{
+  padding:12px 14px;
+  margin-bottom:10px;
+  border-radius:12px;
+  max-width:80%;
+  font-size:16px;
+  line-height:1.4;
+}
+.kullanici{
+  background:#2563eb;
+  margin-left:auto;
+}
+.ai{
+  background:#334155;
+}
+.alt{
+  display:flex;
+  gap:10px;
+  padding:12px;
+  border-top:1px solid #1e293b;
+}
+#giris{
+  flex:1;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #1e293b;
+  background:#0b1220;
+  color:white;
+  font-size:16px;
+}
+#gonder{
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:10px;
+  padding:12px 16px;
+  cursor:pointer;
+  font-size:16px;
+  font-weight:600;
+}
 </style>
 </head>
+
 <body>
 
 <div class="kutu">
@@ -82,21 +89,22 @@
   <div id="sohbet" class="sohbet"></div>
   <div class="alt">
     <input id="giris" placeholder="Bir şey yaz..." autocomplete="off" />
-    <button type="button" id="gonder">Gönder</button>
+    <button id="gonder">Gönder</button>
   </div>
 </div>
 
 <script>
-// Cevaplar tek dosyada obje olarak
+// ================== CEVAPLAR ==================
 const cevaplar = {
+  "merhaba": "Merhaba! Ben ÖnKoç 🤖",
+  "selam": "Selam! Nasıl yardımcı olabilirim?",
   "nasılsın": "İyiyim, sen nasılsın?",
-  "iyiyim": "Güzel, iyi olmana sevindim.",
-  "moralim bozuk": "Üzüldüm, istersen biraz anlat — ne oldu?",
-  "üzgünüm": "Üzüldüm, yanında olmamı ister misin?",
+  "iyiyim": "Buna sevindim 👍",
+  "moralim bozuk": "Üzüldüm, istersen biraz anlat.",
   "adın ne": "Adım ÖnKoç.",
+  "yapay zeka": "Yapay zekâ, makinelerin öğrenmesini sağlar.",
+  "üzgünüm": "Üzüldüm, yanında olmamı ister misin?",
   "ismin ne": "İsmim ÖnKoç.",
-  "yapay zeka": "Yapay zekâ, makinelerin insan gibi düşünmesini sağlayan sistemlerdir.",
-  "stem": "STEM; bilim, teknoloji, mühendislik ve matematik alanlarını kapsar.",
   "merhaba": "Merhaba! Ben ÖnKoç • Nasıl yardımcı olabilirim?",
   "selam": "Selam! Ben ÖnKoç • Ne konuşmak istersin?",
   "teşekkürler": "Rica ederim, her zaman!",
@@ -105,22 +113,18 @@ const cevaplar = {
   "iyi geceler": "İyi geceler! Dinlenmeyi unutma.",
   "istanbul ne zaman fethedildi": "İstanbul, 29 Mayıs 1453 tarihinde II. Mehmet (Fatih Sultan Mehmet) tarafından fethedildi.",
   "türkiye'nin başkenti neresi": "Türkiye'nin başkenti Ankara'dır.",
-
-  // Senin eklediğin yeni cevaplar:
   "derslerime odaklanamıyorum": "Odaklanmak için dikkatini dağıtan şeyleri ortadan kaldır. Küçük hedefler koyarak başla.",
   "hiçbir şey aklımda kalmıyor": "Bilgiyi kalıcı hale getirmek için aralıklı tekrar yap. Kısa notlar hafızanı güçlendirir.",
   "çok çabuk sıkılıyorum": "Uzun süre çalışmak yerine kısa ve yoğun seanslar yap. 25 dakika ders, 5 dakika mola gibi.",
   "telefonu bırakamıyorum": "Telefonu odadan çıkarmak en kolay çözüm. Kendine 'çalışma süresince dokunmayacağım' kuralı koy.",
   "bu ders çok zor": "Zor geliyorsa temeli kaçırmış olabilirsin. Önce temel konuları tekrar et, sonra zor kısımlara dön.",
   "sınavdan korkuyorum": "Korku hazırlıksızlıktan gelir. Ne kadar çok pratik yaparsan, sınav o kadar sıradan hale gelir.",
-  "ben salak mıyım": "Hayır, kesinlikle değilsin. Sadece doğru yöntemi bulmamış olabilirsin.",
   "herkes benden iyi": "Başkalarıyla kıyaslamak seni yıpratır. Önemli olan kendi gelişimini görmek.",
   "hiç motivasyonum yok": "Motivasyon her zaman gelmez. Disiplinle başlarsan motivasyon sonradan gelir.",
   "ailem beni anlamıyor": "Ailen sonuç görmek ister. Sen düzenli çalıştıkça ve başarı geldikçe onlar da anlayacaktır.",
   "asosyal miyim": "Hayır, bu sadece içe dönük olman olabilir. Gayet normal bir kişilik özelliğidir.",
   "kimse beni anlamıyor gibi": "Bazen hisler gerçeği tam yansıtmaz. Kendini ifade etmeyi denersen anlaşılma ihtimalin artar.",
   "geleceğim karanlık gibi": "Henüz yolun başındasın. Küçük adımlar atarak geleceğini şekillendirebilirsin.",
-  "yapay zekâ her şeyi yapacak": "Yapay zekâ güçlü bir araçtır ama insan düşüncesi hâlâ en değerli şeydir.",
   "oyun oynamadan duramıyorum": "Kendine zaman sınırı koy. Çalışma sonrası ödül olarak oyun oynamak daha verimli olur.",
   "uykum hep bozuk": "Uyku saatlerini sabitlemek çok önemlidir. Düzenli uyku zihnini daha güçlü hale getirir.",
   "dikkatim çok çabuk dağılıyor": "Çalışma ortamını sadeleştir. Masanda sadece gerekli materyaller olsun.",
@@ -129,9 +133,8 @@ const cevaplar = {
   "hayat anlamsız geliyor": "Anlam zamanla oluşturulur. Küçük hedefler koyarak hayatına yön verebilirsin.",
   "ben neden böyleyim": "Bu yaşlarda böyle hissetmek çok normal. Zamanla kendini daha iyi tanıyacaksın.",
   "çok stresliyim": "Stresi azaltmak için düzenli mola ver. Derin nefes almak bile seni rahatlatır.",
-  "ders çalışmak istemiyorum": "İstek bekleme. Alışkanlık kurarsan ders çalışmak otomatik hale gelir.",
-  "kim olduğumu bilmiyorum": "Zamanla netleşir. Kendini keşfetmek uzun bir yolculuktur."
-  "plan yapamıyorum": "Basit bir günlük planla başla. Önce en önemli işi yaz, sonra küçük adımları ekle.",
+  "ders çalışmak istemiyorum": "Bazen istek gelmeyebilir. Küçük bir adımla başlarsan alışkanlık zamanla oluşur.",                                                                                                                                                                                                                                                                                                                                 "plan yapamıyorum": "Basit bir günlük planla başla. Önce en önemli işi yaz, sonra küçük adımları ekle.",
+ "kim olduğumu bilmiyorum": "Zamanla netleşir. Kendini keşfetmek uzun bir yolculuktur.",
   "zamanım yetmeyecek": "Önceliklerini belirle. Her gün küçük ilerlemeler büyük fark yaratır.",
   "konuları karıştırıyorum": "Her konuyu özetleyen kısa notlar hazırla. Tekrar ederken bu notlara bak.",
   "motivasyonum bir anda kayboluyor": "Motivasyon dalgalanır, ama alışkanlık seni taşır. Küçük rutinler kurmaya odaklan.",
@@ -147,71 +150,76 @@ const cevaplar = {
   "çok hata yapıyorum": "Hatalar öğrenmenin en doğal parçası. Her hata seni doğruya yaklaştırır.",
   "duygularım çok hızlı değişiyor": "Bu ergenlikte çok normal. Yazmak ve hareket etmek denge sağlar.",
   "kendimi bazen çok yalnız hissediyorum": "Birine açılmak iyi gelir. Kısa bir sohbet bile yükünü azaltır.",
-  "vücudum çok değişiyor": "Bu yaşta değişim doğal. Zamanla alışacak ve rahat hissedeceksin.",
   "çok sinirleniyorum": "Derin nefes ve kısa molalar işe yarar. Tepki vermeden önce 10 saniye bekle.",
   "arkadaşlarım benden uzaklaşıyor gibi": "İlişkiler bu dönemde değişebilir. Yeni bağlar kurmak da normaldir.",
-  "kendimi çirkin hissediyorum": "Görünüş değerin değildir. Sağlık ve iyi hissetmeye odaklan.",
   "geleceğimden çok korkuyorum": "Belirsizlik doğal. Küçük hedefler koyarak kontrol duygunu artır.",
   "ödevlerim birikiyor": "Ödevi parçalara böl. 20 dakikalık bloklarla ilerle, bittiğinde kısa ödül ver.",
   "konuyu anlamadan ezberliyorum": "Kendi cümlelerinle anlatmayı dene. Anlatabiliyorsan gerçekten anlamışsındır.",
-  "soru çözmekten sıkılıyorum": "Hedef koy ve süre tut. Çözdükçe küçük ödüller motivasyon sağlar."
-  "hangi derse çalışacağımı şaşırıyorum": "Her şeye aynı anda yetişemezsin. En çok zorlandığın dersi sabah saatlerine, en sevdiğin dersi ise yorgun olduğun saatlere koyarak bir denge kur."
-  "arkadaş ortamına uyum sağlayamıyorum": "Herkesle aynı olmak zorunda değilsin. Kendi ilgi alanlarına odaklandığında, seninle gerçekten kafa dengi olan insanlarla yolun kendiliğinden kesişecektir."
+  "soru çözmekten sıkılıyorum": "Hedef koy ve süre tut. Çözdükçe küçük ödüller motivasyon sağlar.",
+  "hangi derse çalışacağımı şaşırıyorum": "Her şeye aynı anda yetişemezsin. En çok zorlandığın dersi sabah saatlerine, en sevdiğin dersi ise yorgun olduğun saatlere koyarak bir denge kur.",
+  "arkadaş ortamına uyum sağlayamıyorum": "Herkesle aynı olmak zorunda değilsin. Kendi ilgi alanlarına odaklandığında, seninle gerçekten kafa dengi olan insanlarla yolun kendiliğinden kesişecektir.",
+"ödev yapamıyorum": "Sıkışmış hissetmen normal. Küçük bir yerden başlarsan devamı daha kolay gelir.",
+"ders çalışamıyorum": "İstek her zaman gelmez ama başladıkça motivasyon oluşur.",
+"okula gitmek istemiyorum": "Bazen böyle hissetmek normal. Bugünü atlatmaya odaklan, her gün aynı olmaz.",
+"ders dinlemekten sıkılıyorum": "Sıkılman normal. Dersi aktif dinlemeye geçersen zaman daha hızlı akar."
 };
 
-// Açılış mesajı
+// ================== AÇILIŞ ==================
 window.onload = () => {
-  mesajEkle("Merhaba! Ben ÖnKoç • Tek dosya içindeyim.", "ai")
+  mesajEkle("Merhaba! Ben ÖnKoç • Tek dosya içindeyim 🤖","ai");
 };
 
-    function gonder(){
-  const metin = giris.value;
-  if(!metin.trim()) return;
-  mesajEkle(metin,"kullanici");
-  giris.value = "";
-  const cevap = cevapUret(metin.toLowerCase());
-
-  // 1 saniye bekle, sonra cevabı göster
-  setTimeout(() => {
-    mesajEkle(cevap,"ai");
-  }, 5000);
-}
-
-
+// ================== ELEMENTLER ==================
 const giris = document.getElementById("giris");
 const buton = document.getElementById("gonder");
-buton.addEventListener("click", gonder);
-giris.addEventListener("keyup", e => { if(e.key === "Enter") gonder(); });
 
+buton.addEventListener("click", gonder);
+giris.addEventListener("keyup", e => {
+  if(e.key === "Enter") gonder();
+});
+
+// ================== FONKSİYONLAR ==================
 function gonder(){
-  const metin = giris.value;
-  if(!metin.trim()) return;
+  const metin = giris.value.trim();
+  if(!metin) return;
+
   mesajEkle(metin,"kullanici");
   giris.value = "";
+
   const cevap = cevapUret(metin.toLowerCase());
-  mesajEkle(cevap,"ai");
+
+  setTimeout(() => {
+    mesajEkle(cevap,"ai");
+  }, 1000);
 }
 
 function cevapUret(s){
   for(const key in cevaplar){
     if(s.includes(key)) return cevaplar[key];
   }
+
   if(s.includes("saat")){
-    const now = new Date();
-    return `Şu an saat: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+    const d = new Date();
+    return `Şu an saat: ${d.getHours()}:${d.getMinutes()}`;
   }
+
   if(s.includes("tarih")){
-    const now = new Date();
-    return `Bugünün tarihi: ${now.getDate()}/${now.getMonth()+1}/${now.getFullYear()}`;
+    const d = new Date();
+    return `Bugünün tarihi: ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
   }
+
   if(/^[0-9+\-*/(). %]+$/.test(s)){
-    try{ return "Sonuç: " + Function(`return (${s})`)(); }
-    catch{ return "İşlem hatalı."; }
+    try{
+      return "Sonuç: " + eval(s);
+    }catch{
+      return "İşlem hatalı.";
+    }
   }
+
   return "Bunu biraz daha açar mısın?";
 }
 
-function mesajEkle(metin,tip){
+function mesajEkle(metin, tip){
   const sohbet = document.getElementById("sohbet");
   const div = document.createElement("div");
   div.className = "mesaj " + tip;
@@ -223,5 +231,3 @@ function mesajEkle(metin,tip){
 
 </body>
 </html>
-
-
